@@ -21,7 +21,24 @@ Future<String> solvePuzzle1() async {
 }
 
 Future<String> solvePuzzle2() async {
-  return 'Ca arrive !';
+  final lines = await const InputService().readInputLines(1);
+  final rotations = lines.map(_parseRotation).toList(growable: false);
+
+  const int modulo = 100;
+  int current = 50;
+  int zeroCount = 0;
+
+  for (final r in rotations) {
+    final step = r.clockWise ? 1 : -1;
+    for (int i = 0; i < r.value; i++) {
+      current = (current + step) % modulo;
+      if (current == 0) {
+        zeroCount++;
+      }
+    }
+  }
+
+  return 'Value: $zeroCount';
 }
 
 class Rotate {
@@ -33,8 +50,6 @@ class Rotate {
     required this.value,
   });
 }
-
-
 
 Rotate _parseRotation(String line) {
   return Rotate(
