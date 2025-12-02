@@ -184,7 +184,7 @@ class Home extends StatelessWidget {
                                           );
                                         }
                                         final text = snapshot.data ?? '';
-                                        return Text(
+                                        return SelectableText(
                                           text,
                                           textAlign: TextAlign.center,
                                         );
@@ -217,7 +217,7 @@ class Home extends StatelessWidget {
                                           );
                                         }
                                         final text = snapshot.data ?? '';
-                                        return Text(
+                                        return SelectableText(
                                           text,
                                           textAlign: TextAlign.center,
                                         );

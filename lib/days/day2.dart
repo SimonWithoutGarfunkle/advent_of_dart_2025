@@ -19,7 +19,16 @@ Future<String> solvePuzzle1() async {
 }
 
 Future<String> solvePuzzle2() async {
-  return 'Ca arrive !';
+  final lines = await const InputService().readInputLines(2);
+  final ranges = lines.first.split(',').map(_parseRange).toList(growable: false);
+  int result = 0;
+
+  for (final r in ranges) {
+    for (int i = r.min; i <= r.max; i++) {
+      result += _invalid(i);
+    }
+  }
+  return 'Value: $result';
 }
 
 class Range{
@@ -30,6 +39,21 @@ class Range{
     required this.min,
     required this.max,
   });
+}
+
+int _invalid(int value) {
+  final txt = value.toString();
+  final length = txt.length;
+  if (length == 1 ) return 0;
+
+  for (int i = 1; i <= length ~/ 2; i++) {
+    if (length % i != 0) continue;
+    final pattern = txt.substring(0, i);
+    final repeatCount = length ~/ i;
+    final repeated = List.filled(repeatCount, pattern).join();
+    if (repeated == txt) return value;
+  }
+  return 0;
 }
 
 Range _parseRange(String input) {
