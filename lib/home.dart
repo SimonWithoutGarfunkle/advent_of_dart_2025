@@ -1,7 +1,37 @@
 import 'package:flutter/material.dart';
 
+import 'models/day_solver.dart';
+import 'days/day1.dart' as d1;
+import 'days/day2.dart' as d2;
+import 'days/day3.dart' as d3;
+import 'days/day4.dart' as d4;
+import 'days/day5.dart' as d5;
+import 'days/day6.dart' as d6;
+import 'days/day7.dart' as d7;
+import 'days/day8.dart' as d8;
+import 'days/day9.dart' as d9;
+import 'days/day10.dart' as d10;
+import 'days/day11.dart' as d11;
+import 'days/day12.dart' as d12;
+
+
 class Home extends StatelessWidget {
   const Home({super.key});
+
+  static const List<DaySolver> _days = [
+    DaySolver(day: 1, solve1: d1.solvePuzzle1, solve2: d1.solvePuzzle2),
+    DaySolver(day: 2, solve1: d2.solvePuzzle1, solve2: d2.solvePuzzle2),
+    DaySolver(day: 3, solve1: d3.solvePuzzle1, solve2: d3.solvePuzzle2),
+    DaySolver(day: 4, solve1: d4.solvePuzzle1, solve2: d4.solvePuzzle2),
+    DaySolver(day: 5, solve1: d5.solvePuzzle1, solve2: d5.solvePuzzle2),
+    DaySolver(day: 6, solve1: d6.solvePuzzle1, solve2: d6.solvePuzzle2),
+    DaySolver(day: 7, solve1: d7.solvePuzzle1, solve2: d7.solvePuzzle2),
+    DaySolver(day: 8, solve1: d8.solvePuzzle1, solve2: d8.solvePuzzle2),
+    DaySolver(day: 9, solve1: d9.solvePuzzle1, solve2: d9.solvePuzzle2),
+    DaySolver(day: 10, solve1: d10.solvePuzzle1, solve2: d10.solvePuzzle2),
+    DaySolver(day: 11, solve1: d11.solvePuzzle1, solve2: d11.solvePuzzle2),
+    DaySolver(day: 12, solve1: d12.solvePuzzle1, solve2: d12.solvePuzzle2),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +132,11 @@ class Home extends StatelessWidget {
                               label: Center(child: Text('Solution 2')),
                             ),
                           ],
-                          rows: List<DataRow>.generate(12, (index) {
-                            final day = 'Jour ${index + 1}';
+                          rows: List<DataRow>.generate(_days.length, (index) {
+                            final daySolver = _days[index];
                             final isEven = index.isEven;
+                            final dayLabel = 'Jour ${daySolver.day}';
+
                             return DataRow(
                               color: WidgetStatePropertyAll(
                                 isEven
@@ -112,6 +144,7 @@ class Home extends StatelessWidget {
                                     : const Color(0x103E2723),
                               ),
                               cells: [
+                                // Colonne 1 : jour
                                 DataCell(
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -122,15 +155,75 @@ class Home extends StatelessWidget {
                                         color: Color(0xFFB71C1C),
                                       ),
                                       const SizedBox(width: 8),
-                                      Text(day),
+                                      Text(dayLabel),
                                     ],
                                   ),
                                 ),
-                                const DataCell(
-                                  Center(child: Text('')),
+
+                                // Colonne 2 : question 1
+                                DataCell(
+                                  Center(
+                                    child: FutureBuilder<String>(
+                                      future: daySolver.solve1(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const SizedBox(
+                                            width: 18,
+                                            height: 18,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                            ),
+                                          );
+                                        }
+                                        if (snapshot.hasError) {
+                                          return const Icon(
+                                            Icons.error,
+                                            color: Colors.red,
+                                            size: 18,
+                                          );
+                                        }
+                                        final text = snapshot.data ?? '';
+                                        return Text(
+                                          text,
+                                          textAlign: TextAlign.center,
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ),
-                                const DataCell(
-                                  Center(child: Text('')),
+
+                                // Colonne 3 : question 2
+                                DataCell(
+                                  Center(
+                                    child: FutureBuilder<String>(
+                                      future: daySolver.solve2(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const SizedBox(
+                                            width: 18,
+                                            height: 18,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                            ),
+                                          );
+                                        }
+                                        if (snapshot.hasError) {
+                                          return const Icon(
+                                            Icons.error,
+                                            color: Colors.red,
+                                            size: 18,
+                                          );
+                                        }
+                                        final text = snapshot.data ?? '';
+                                        return Text(
+                                          text,
+                                          textAlign: TextAlign.center,
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ),
                               ],
                             );

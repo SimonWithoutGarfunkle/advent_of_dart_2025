@@ -1,53 +1,44 @@
-import 'package:flutter/material.dart';
 import '../services/input_service.dart';
 
-class Day1 extends StatelessWidget {
-  const Day1({super.key});
+Future<String> solvePuzzle1() async {
+  final lines = await const InputService().readInputLines(1);
+  final rotations = lines.map(_parseRotation).toList(growable: false);
 
-  Future<List<String>> _load() => const InputService().readInputLines(1);
+  const int modulo = 100;
+  int current = 50;
+  int zeroCount = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Day 1'),
-      ),
-      body: FutureBuilder<List<String>>(
-        future: _load(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Erreur de chargement: ${snapshot.error}',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            );
-          }
-          final lines = snapshot.data ?? const <String>[];
-          if (lines.isEmpty) {
-            return const Center(child: Text('Aucune donnée dans day1.txt'));
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: lines.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
-            itemBuilder: (context, index) {
-              return ListTile(
-                dense: true,
-                leading: Text('${index + 1}'),
-                title: Text(lines[index]),
-              );
-            },
-          );
-        },
-      ),
-    );
+  for (final r in rotations) {
+    if (r.clockWise) {
+      current = (current + r.value) % modulo;
+    } else {
+      current = (current - r.value) % modulo;
+    }
+    if (current == 0) zeroCount++;
   }
+
+  return 'Value: $zeroCount';
+}
+
+Future<String> solvePuzzle2() async {
+  return 'Ca arrive !';
+}
+
+class Rotate {
+  final bool clockWise;
+  final int value;
+
+  const Rotate({
+    required this.clockWise,
+    required this.value,
+  });
+}
+
+
+
+Rotate _parseRotation(String line) {
+  return Rotate(
+      clockWise: line.startsWith("R"),
+      value: int.parse(line.substring(1))
+  );
 }
