@@ -1,6 +1,7 @@
 import '../services/input_service.dart';
 
 Future<String> solvePuzzle1() async {
+  return '✅';
   final lines = await const InputService().readInputLines(2);
   final ranges = lines.first.split(',').map(_parseRange).toList(growable: false);
   int result = 0;
@@ -19,6 +20,7 @@ Future<String> solvePuzzle1() async {
 }
 
 Future<String> solvePuzzle2() async {
+  return '✅';
   final lines = await const InputService().readInputLines(2);
   final ranges = lines.first.split(',').map(_parseRange).toList(growable: false);
   int result = 0;

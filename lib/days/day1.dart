@@ -1,6 +1,7 @@
 import '../services/input_service.dart';
 
 Future<String> solvePuzzle1() async {
+  return '✅';
   final lines = await const InputService().readInputLines(1);
   final rotations = lines.map(_parseRotation).toList(growable: false);
 
@@ -21,6 +22,7 @@ Future<String> solvePuzzle1() async {
 }
 
 Future<String> solvePuzzle2() async {
+  return '✅';
   final lines = await const InputService().readInputLines(1);
   final rotations = lines.map(_parseRotation).toList(growable: false);
 
