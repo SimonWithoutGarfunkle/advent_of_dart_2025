@@ -1,3 +1,4 @@
+import 'package:advent_of_dart_2025/widgets/day4_viewer.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 
@@ -14,7 +15,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: const Home(),
+      home: const Day4Page(),
     );
   }
 }

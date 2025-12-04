@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../days/day4.dart';
+import '../services/input_service.dart';
 import 'matrix_viewer.dart';
 
 class Day4Page extends StatefulWidget {
@@ -11,38 +12,50 @@ class Day4Page extends StatefulWidget {
 }
 
 class _Day4PageState extends State<Day4Page> {
-  // Matrice de référence, jamais modifiée
-  final List<List<String>> _initialMatrix = [
-    ['.', '@', '.', '.', '@', '.'],
-    ['@', '@', '.', '@', '@', '.'],
-    ['.', '.', '@', '@', '@', '.'],
-    ['.', '@', '@', '@', '@', '.'],
-    ['.', '.', '.', '.', '.', '.'],
-    ['.', '@', '.', '.', '@', '.'],
-  ];
-
-  late List<List<String>> _matrix; // matrice courante
+  List<List<String>>? _initialMatrix;
+  late List<List<String>> _matrix;
 
   int _step = 0;
   int _deletedTotal = 0;
   bool _isAuto = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _resetState();
+    _loadMatrix();
   }
 
-  // Clone profond de la matrice
+  Future<void> _loadMatrix() async {
+    final lines = await InputService().readInputLines(4);
+    final initial = parseGrid(lines);
+
+    if (!mounted) return;
+
+    setState(() {
+      _initialMatrix = initial;
+      _matrix = _cloneMatrix(initial);
+      _step = 0;
+      _deletedTotal = 0;
+      _isAuto = false;
+      _isLoading = false;
+    });
+  }
+
   List<List<String>> _cloneMatrix(List<List<String>> src) {
     return src.map((row) => List<String>.from(row)).toList();
   }
 
   void _resetState() {
-    _matrix = _cloneMatrix(_initialMatrix);
-    _step = 0;
-    _deletedTotal = 0;
-    _isAuto = false;
+    final initial = _initialMatrix;
+    if (initial == null) return;
+
+    setState(() {
+      _matrix = _cloneMatrix(initial);
+      _step = 0;
+      _deletedTotal = 0;
+      _isAuto = false;
+    });
   }
 
   void _stepOnce() {
@@ -68,6 +81,8 @@ class _Day4PageState extends State<Day4Page> {
       final deleted = iterateDelete(_matrix);
       if (deleted == 0) break;
 
+      if (!mounted) return;
+
       setState(() {
         _step++;
         _deletedTotal += deleted;
@@ -76,6 +91,8 @@ class _Day4PageState extends State<Day4Page> {
       await Future.delayed(const Duration(milliseconds: 200));
     }
 
+    if (!mounted) return;
+
     setState(() {
       _isAuto = false;
     });
@@ -83,6 +100,12 @@ class _Day4PageState extends State<Day4Page> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading || _initialMatrix == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     final evalMatrix = evaluatedMatrix(_matrix);
 
     return Scaffold(
@@ -111,9 +134,7 @@ class _Day4PageState extends State<Day4Page> {
               ),
               const SizedBox(width: 12),
               TextButton(
-                onPressed: () {
-                  setState(_resetState);
-                },
+                onPressed: _resetState,
                 child: const Text('Reset'),
               ),
             ],
