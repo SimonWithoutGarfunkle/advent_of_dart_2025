@@ -2,6 +2,7 @@ import '../services/input_service.dart';
 import 'dart:math';
 
 Future<String> solvePuzzle1() async {
+  return '✅';
   int result = 0;
   final lines = await const InputService().readInputLines(3);
   for (final line in lines) {
@@ -12,6 +13,7 @@ Future<String> solvePuzzle1() async {
 }
 
 Future<String> solvePuzzle2() async {
+  return '✅';
   int result = 0;
   final lines = await const InputService().readInputLines(3);
   for (final line in lines) {
