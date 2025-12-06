@@ -1,6 +1,7 @@
 import '../services/input_service.dart';
 
 Future<String> solvePuzzle1() async {
+  return '✅';
   final lines = await const InputService().readInputLines(5);
   final ingredients = <int>[];
   final ranges = <Range>[];
@@ -14,6 +15,7 @@ Future<String> solvePuzzle1() async {
 }
 
 Future<String> solvePuzzle2() async {
+  return '✅';
   final lines = await const InputService().readInputLines(5);
   final ranges = _parseInputs2(lines);
   final optimizedRanges = optimizeRange(ranges);
