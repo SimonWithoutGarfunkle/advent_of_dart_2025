@@ -1,6 +1,7 @@
 import '../services/input_service.dart';
 
 Future<String> solvePuzzle1() async {
+  return '✅';
   final lines = await const InputService().readInputLines(4);
   final int height = lines.length;
   final int width = lines[0].length;
@@ -18,6 +19,7 @@ Future<String> solvePuzzle1() async {
 }
 
 Future<String> solvePuzzle2() async {
+  return '✅';
   final lines = await const InputService().readInputLines(4);
   final matrix = parseGrid(lines);
 

@@ -17,8 +17,7 @@ class InputService {
     try {
       final content = await rootBundle.loadString(path);
       final normalized = content.replaceAll('\r\n', '\n').replaceAll('\r', '\n');
-      final lines = const LineSplitter().convert(normalized);
-      return lines.where((l) => l.isNotEmpty).toList(growable: false);
+      return const LineSplitter().convert(normalized);
     } catch (e) {
       throw Exception('Failed to load "$path": $e');
     }
