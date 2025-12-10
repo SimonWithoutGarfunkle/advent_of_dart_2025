@@ -8,7 +8,7 @@ L’objectif n’est pas uniquement de produire des solutions fonctionnelles, ma
 
 ## 🎯 Objectifs
 
-- Approfondir Dart à travers des exercices concrets
+- Prendre en main Dart à travers des exercices concrets
 - Travailler la logique, les structures de données et les algorithmes
 - Consolider de bonnes pratiques (naming, découpage, lisibilité)
 - Faire quelques représentations visuelles de solutions lorsque le puzzle s'y prête
