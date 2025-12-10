@@ -34,4 +34,4 @@ Les solutions privilégient la résolution du problème avant l'optimisation
 ## 🤝 Contact
 Projet personnel à but pédagogique, réalisé en parallèle d’autres projets afin de renforcer mes compétences en développement logiciel.
 Des remarques ? Des questions ?  
-N’hésitez pas à me contacter sur [LinkedIn](https://www.linkedin.com/in/simon-lefort-6a58a482/).
+N’hésitez pas à [me contacter](https://www.linkedin.com/in/simon-lefort-6a58a482/).
